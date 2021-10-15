@@ -4,7 +4,7 @@ extern crate cpython;
 use cpython::{Python, PyResult};
 
 fn multiples_simple(_py: Python, primes: Vec<f64>, max: f64) -> PyResult<Vec<f64>> {
-    let mut multiples = vec![1.];
+    let mut multiples = vec![primes.iter().product()];
     for p in primes {
         let slice = &multiples[0..multiples.len()];
         let mut next = Vec::new();
