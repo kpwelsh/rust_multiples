@@ -1,17 +1,33 @@
-# Feel free to put this wherever is convenient. It gets built 
-# into the /target/release/ folder by default
+from sympy.polys.polytools import factor
 from target.release.libmultiples import multiples
-import time
+from sympy import primefactors as factors
 
-# Once you have compiled the library with 'cargo build --release', you might need
-# to rename the output library, depending on your OS.
-# On windows, you can rename the libmultiples.dll -> libmultiples.pyd
-# You might be able to directly import the .so, though on linux
+def prod(A):
+  r = 1
+  for i in A:
+    r *= i
+  return r
 
-primes = [2.,3.,7.,13.]
-s = time.perf_counter()
-vals = multiples(primes, 2**63)
-e = time.perf_counter()
-print('Number found: ', len(vals))
-print('Time: ', e - s)
+rad_a = 1267
+mults = multiples(factors(rad_a), 2 ** 60)
 
+
+ns = [
+1605289,
+290557309,
+52590872929,
+9518948000149,
+1722929588026969,
+311850255432881389,
+1104664012222876561,
+]
+
+for n in ns:
+    print(2 ** 63 / n)
+
+
+print(factors(rad_a))
+
+for A in mults:
+    print(A, factors(A), [A % a for a in factors(rad_a)])
+    assert prod(factors(A)) == rad_a, f'A: {A}, f_A: {factors(A)}'
